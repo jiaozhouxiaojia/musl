@@ -6,8 +6,11 @@
 /* collate only by code points */
 size_t __strxfrm_l(char *restrict dest, const char *restrict src, size_t n, locale_t loc)
 {
-	size_t l = strlen(src);
-	if (n > l) strcpy(dest, src);
+	if (l < n) {
+		stpncpy(dest, src, l+1);
+	} else if (n) {
+		stpncpy(dest, src, n);
+	}
 	return l;
 }
 
